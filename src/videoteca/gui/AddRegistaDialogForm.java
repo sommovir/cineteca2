@@ -5,23 +5,34 @@
  */
 package videoteca.gui;
 
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Persistence;
+import javax.swing.Box;
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.JToolBar;
 import javax.swing.LayoutStyle;
+import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 import videoteca.controllers.RegistaJpaController;
+import videoteca.controllers.exceptions.NonexistentEntityException;
 import videoteca.entities.Regista;
 import videoteca.gui.mr.RegistaTableModel;
 import videoteca.gui.mr.RegistaTableRenderer;
+import videoteca.logic.DBManager;
 
 /**
  *
@@ -35,10 +46,11 @@ public class AddRegistaDialogForm extends javax.swing.JDialog {
     public AddRegistaDialogForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+
         RegistaJpaController controller = new RegistaJpaController(Persistence.createEntityManagerFactory("VideoTecaPU"));
         List<Regista> list = controller.findRegistaEntities();
         for (Regista regista : list) {
-            System.out.println("REGISTA: "+regista.getNome());
+            System.out.println("REGISTA: " + regista.getNome());
             this.registaTableModel1.addRowElement(regista);
         }
     }
@@ -54,25 +66,21 @@ public class AddRegistaDialogForm extends javax.swing.JDialog {
 
         registaTableRenderer1 = new RegistaTableRenderer();
         registaTableModel1 = new RegistaTableModel();
-        jLabel1 = new JLabel();
         jTextField_nome = new JTextField();
-        jButton1 = new JButton();
         jButton2 = new JButton();
         jScrollPane1 = new JScrollPane();
         jTable1 = new JTable();
+        jToolBar1 = new JToolBar();
+        jButton1 = new JButton();
+        jButton3 = new JButton();
+        jButton4 = new JButton();
+        jButton5 = new JButton();
 
         registaTableRenderer1.setText("registaTableRenderer1");
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setText("Regista:");
-
-        jButton1.setText("Aggiungi");
-        jButton1.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        jTextField_nome.setEnabled(false);
 
         jButton2.setText("Chiudi");
         jButton2.addActionListener(new ActionListener() {
@@ -88,38 +96,86 @@ public class AddRegistaDialogForm extends javax.swing.JDialog {
             jTable1.getColumnModel().getColumn(0).setCellRenderer(registaTableRenderer1);
         }
 
+        jToolBar1.setFloatable(false);
+        jToolBar1.setOrientation(SwingConstants.VERTICAL);
+        jToolBar1.setRollover(true);
+        this.jToolBar1.setLayout(new FlowLayout(FlowLayout.CENTER));
+
+        jButton1.setIcon(new ImageIcon(getClass().getResource("/videoteca/icons/add24_1.png"))); // NOI18N
+        jButton1.setText("Aggiungi");
+        jButton1.setHorizontalTextPosition(SwingConstants.CENTER);
+        jButton1.setVerticalTextPosition(SwingConstants.BOTTOM);
+        jButton1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton1);
+
+        jButton3.setIcon(new ImageIcon(getClass().getResource("/videoteca/icons/edit22.png"))); // NOI18N
+        jButton3.setText("Modifica");
+        jButton3.setFocusable(false);
+        jButton3.setHorizontalTextPosition(SwingConstants.CENTER);
+        jButton3.setVerticalTextPosition(SwingConstants.BOTTOM);
+        jToolBar1.add(jButton3);
+
+        jButton4.setIcon(new ImageIcon(getClass().getResource("/videoteca/icons/delete16_1.png"))); // NOI18N
+        jButton4.setText("Elimina");
+        jButton4.setFocusable(false);
+        jButton4.setHorizontalTextPosition(SwingConstants.CENTER);
+        jButton4.setMaximumSize(new Dimension(45, 47));
+        jButton4.setMinimumSize(new Dimension(45, 47));
+        jButton4.setPreferredSize(new Dimension(45, 47));
+        jButton4.setVerticalTextPosition(SwingConstants.BOTTOM);
+        jButton4.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton4);
+
+        jButton5.setIcon(new ImageIcon(getClass().getResource("/videoteca/icons/save24.png"))); // NOI18N
+        jButton5.setEnabled(false);
+        jButton5.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addComponent(jToolBar1, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(jTextField_nome, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField_nome)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE))
-                    .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addGap(1, 1, 1))
-                    .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButton5)
+                        .addGap(0, 99, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addContainerGap())))
+            .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2)
                 .addContainerGap())
         );
         layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField_nome, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextField_nome, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton5))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jToolBar1, GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE))
                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton2)
-                .addGap(6, 6, 6))
+                .addContainerGap())
         );
 
         pack();
@@ -130,6 +186,28 @@ public class AddRegistaDialogForm extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.jTextField_nome.setEnabled(true);
+        this.jButton5.setEnabled(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton4ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        int selectedRow = this.jTable1.getSelectedRow();
+        System.out.println("selected row = " + selectedRow);
+        if (selectedRow != -1) {
+            Regista regista = this.registaTableModel1.getRegistaByRow(selectedRow);
+            try {
+                DBManager.getInstance().getRegistaJpaController().destroy(regista.getId());
+                JOptionPane.showMessageDialog(null, "Regista cancellato correttamente");
+            } catch (NonexistentEntityException ex) {
+                Logger.getLogger(AddRegistaDialogForm.class.getName()).log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
+            }
+        } else {
+            System.out.println("nuddi da cancellare");
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         String nome = this.jTextField_nome.getText();
         Regista regista = new Regista();
         regista.setNome(nome);
@@ -137,12 +215,16 @@ public class AddRegistaDialogForm extends javax.swing.JDialog {
         RegistaJpaController controller = new RegistaJpaController(Persistence.createEntityManagerFactory("VideoTecaPU"));
         try {
             controller.create(regista);
-            System.out.println("added to db: "+regista.getNome()+", id: "+regista.getId());
+            System.out.println("added to db: " + regista.getNome() + ", id: " + regista.getId());
             this.registaTableModel1.addRowElement(regista);
+            JOptionPane.showMessageDialog(null, "Regista inserito");
+            this.jTextField_nome.setText("");
+            this.jTextField_nome.setEnabled(false);
+            this.jButton5.setEnabled(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -189,10 +271,13 @@ public class AddRegistaDialogForm extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private JButton jButton1;
     private JButton jButton2;
-    private JLabel jLabel1;
+    private JButton jButton3;
+    private JButton jButton4;
+    private JButton jButton5;
     private JScrollPane jScrollPane1;
     private JTable jTable1;
     private JTextField jTextField_nome;
+    private JToolBar jToolBar1;
     private RegistaTableModel registaTableModel1;
     private RegistaTableRenderer registaTableRenderer1;
     // End of variables declaration//GEN-END:variables

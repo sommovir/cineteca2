@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-2020-10-07 17:52:24.243 GMT:
- Booting Derby version The Apache Software Foundation - Apache Derby - 10.6.1.0 - (938214): instance a816c00e-0175-0431-5620-0000003be840 
+2020-10-08 14:53:26.751 GMT:
+ Booting Derby version The Apache Software Foundation - Apache Derby - 10.6.1.0 - (938214): instance a816c00e-0175-08b3-dd04-000000099770 
 on database directory C:\Users\Luca\Documents\dev\robot-race\VideoTeca\cmDB   with class loader sun.misc.Launcher$AppClassLoader@1ee12a7
 
 Database Class Loader started - derby.database.classpath=''

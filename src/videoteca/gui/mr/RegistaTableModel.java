@@ -24,13 +24,6 @@ public class RegistaTableModel extends AbstractLCTableModel<Regista> {
         super(new String[]{"Regista"}, null);
     }
 
-    public Regista getAccountAtRow(int row) {
-        if (row < datas.size() && row >= 0) {
-            return this.datas.get(row);
-        }
-        return null;
-
-    }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
@@ -57,6 +50,7 @@ public class RegistaTableModel extends AbstractLCTableModel<Regista> {
 
     @Override
     public void setValueAt(Object value, int row, int col) {
+        
         if (col == 10) {
 //            System.out.println("VALUE -> " + value);
 //            ParsedAccount pa = this.datas.get(row);
@@ -86,7 +80,7 @@ public class RegistaTableModel extends AbstractLCTableModel<Regista> {
         super.addRowElement(element); //To change body of generated methods, choose Tools | Templates.   
     }
 
-    public Regista getPersonByRow(int row) {
+    public Regista getRegistaByRow(int row) {
         Regista pa = this.datas.get(row);
 //        Person personByID = TrainerManager.getInstance().getPersonByID(pa.getAccount().getId());
         return pa;
